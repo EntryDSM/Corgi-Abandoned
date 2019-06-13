@@ -1,10 +1,13 @@
 package initialize
 
 import (
+	"os"
 	"os/exec"
 	"runtime"
 	"strconv"
 	"strings"
+
+	"github.com/EntryDSM/Corgi/config"
 )
 
 const (
@@ -13,11 +16,20 @@ const (
 )
 
 func Initialize() {
+	checkUserPrivilege()
+	initializeConfig()
+}
+
+func checkUserPrivilege() {
 	isSuperuser := isApplicationRunningOnSuperuser()
 	if !isSuperuser {
 		panic("Corgi needs root privilege.")
 	}
+}
 
+func initializeConfig() {
+	configFilePath := os.Args[0]
+	config.InitializeConfig(configFilePath)
 }
 
 func isApplicationRunningOnSuperuser() bool {
