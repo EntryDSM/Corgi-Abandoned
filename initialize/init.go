@@ -1,9 +1,10 @@
-package init
+package initialize
 
 import (
 	"os/exec"
 	"runtime"
 	"strconv"
+	"strings"
 )
 
 const (
@@ -11,7 +12,7 @@ const (
 	root    = 0
 )
 
-func Init() {
+func Initialize() {
 	isSuperuser := isApplicationRunningOnSuperuser()
 	if !isSuperuser {
 		panic("Corgi needs root privilege.")
@@ -31,19 +32,20 @@ func isUnixSuperuser() bool {
 	const errorMessage = "An error occured while checking application's permission."
 
 	cmd := exec.Command("id", "-u")
-	output, err := cmd.Output()
+	rawUIDString, err := cmd.Output()
 
 	if err != nil {
 		panic(errorMessage)
 	}
 
-	i, err := strconv.Atoi(string(output[:len(output)-1]))
+	uidString := strings.TrimSpace(string(rawUIDString))
+	uid, err := strconv.Atoi(uidString)
 
 	if err != nil {
 		panic(errorMessage)
 	}
 
-	return i == root
+	return uid == root
 }
 
 func isWindows() bool {
