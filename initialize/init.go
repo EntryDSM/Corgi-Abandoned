@@ -1,12 +1,12 @@
 package initialize
 
 import (
-	"os"
 	"os/exec"
 	"runtime"
 	"strconv"
 	"strings"
 
+	"github.com/EntryDSM/Corgi/args"
 	"github.com/EntryDSM/Corgi/config"
 )
 
@@ -28,8 +28,7 @@ func checkUserPrivilege() {
 }
 
 func initializeConfig() {
-	configFilePath := os.Args[0]
-	config.InitializeConfig(configFilePath)
+	config.InitializeConfig(*args.ConfigFilePath)
 }
 
 func isApplicationRunningOnSuperuser() bool {
