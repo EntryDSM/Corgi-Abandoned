@@ -27,16 +27,16 @@ func checkUserPrivilege() {
 	}
 }
 
-func initializeConfig() {
-	config.InitializeConfig(*args.ConfigFilePath)
-}
-
 func isApplicationRunningOnSuperuser() bool {
 	if isWindows() {
 		panic("Corgi doesn't support windows platform.")
 	} else {
 		return isUnixSuperuser()
 	}
+}
+
+func isWindows() bool {
+	return runtime.GOOS == windows
 }
 
 func isUnixSuperuser() bool {
@@ -59,6 +59,6 @@ func isUnixSuperuser() bool {
 	return uid == root
 }
 
-func isWindows() bool {
-	return runtime.GOOS == windows
+func initializeConfig() {
+	config.InitializeConfig(*args.ConfigFilePath)
 }
