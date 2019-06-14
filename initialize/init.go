@@ -6,6 +6,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/EntryDSM/Corgi/fetch"
+
 	"github.com/EntryDSM/Corgi/args"
 	"github.com/EntryDSM/Corgi/config"
 )
@@ -18,6 +20,7 @@ const (
 func Initialize() {
 	checkUserPrivilege()
 	initializeConfig()
+	initializeHTTPClient()
 }
 
 func checkUserPrivilege() {
@@ -61,4 +64,8 @@ func isUnixSuperuser() bool {
 
 func initializeConfig() {
 	config.InitializeConfig(*args.ConfigFilePath)
+}
+
+func initializeHTTPClient() {
+	fetch.InitializeHttpClient()
 }

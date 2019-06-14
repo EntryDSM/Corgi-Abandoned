@@ -10,6 +10,7 @@ type Config struct {
 	User                 string
 	Password             string
 	PollingRatePerMinute int
+	ServerCertFilePath   string
 }
 
 var CorgiConfig Config
