@@ -19,6 +19,7 @@ const (
 
 func Initialize() {
 	checkUserPrivilege()
+	initializeArguments()
 	initializeConfig()
 	initializeHTTPClient()
 }
@@ -60,6 +61,10 @@ func isUnixSuperuser() bool {
 	}
 
 	return uid == root
+}
+
+func initializeArguments() {
+	args.InitializeArguments()
 }
 
 func initializeConfig() {
