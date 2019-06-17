@@ -3,10 +3,6 @@ package fetch
 import (
 	"encoding/json"
 	"net/http"
-	"net/url"
-	"path"
-
-	"github.com/EntryDSM/Corgi/config"
 )
 
 type RepositoryList struct {
@@ -15,20 +11,11 @@ type RepositoryList struct {
 
 const resourceOfRepositoryList = "v2/_catalog"
 
-func GetRepositoryNameList(repositoryURLString string) (*RepositoryList, error) {
-	repositoryURL, err := url.Parse(repositoryURLString)
-	if err != nil {
-		panic("Malformed Repository URL.")
-	}
+func GetRepositoryNameList() (*RepositoryList, error) {
+	req := http.Request(*AuthenticatedReqeust)
+	req.Method = "GET"
 
-	repositoryURL.Path = path.Join(repositoryURL.Path, resourceOfRepositoryList)
-	req, err := http.NewRequest("GET", repositoryURL.Path, nil)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	req.SetBasicAuth(config.CorgiConfig.User, config.CorgiConfig.Password)
-	res, err := CorgiHttpClient.Do(req)
+	res, err := CorgiHttpClient.Do(&req)
 	if err != nil {
 		return nil, err
 	}

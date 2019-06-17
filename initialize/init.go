@@ -14,7 +14,7 @@ import (
 
 const (
 	windows = "windows"
-	root    = 0
+	rootUID = 0
 )
 
 func Initialize() {
@@ -22,6 +22,7 @@ func Initialize() {
 	initializeArguments()
 	initializeConfig()
 	initializeHTTPClient()
+	initializeAuthenticatedRequest()
 }
 
 func checkUserPrivilege() {
@@ -60,7 +61,7 @@ func isUnixSuperuser() bool {
 		panic(errorMessage)
 	}
 
-	return uid == root
+	return uid == rootUID
 }
 
 func initializeArguments() {
@@ -73,4 +74,8 @@ func initializeConfig() {
 
 func initializeHTTPClient() {
 	fetch.InitializeHttpClient()
+}
+
+func initializeAuthenticatedRequest() {
+	fetch.InitializeRequestWithAuth()
 }
